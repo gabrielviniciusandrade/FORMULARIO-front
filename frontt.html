@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Contato / Contact Form</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #007bb6, #00a896);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Seletor de Idioma */
+        .language-switcher {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .lang-btn {
+            background-color: rgba(255, 255, 255, 0.2);
+            border: 2px solid #ffffff;
+            color: #ffffff;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active, .lang-btn:hover {
+            background-color: #ffffff;
+            color: #007bb6;
+        }
+
+        /* Container do Formulário */
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 600px;
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        p {
+            margin-bottom: 30px;
+            font-size: 14px;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ffffff;
+            border-radius: 4px;
+            background-color: #ffffff;
+            color: #333333;
+            font-size: 14px;
+        }
+
+        textarea {
+            resize: vertical;
+            height: 100px;
+        }
+
+        .phone-inputs {
+            display: flex;
+            gap: 10px;
+        }
+
+        .phone-inputs input {
+            text-align: center;
+        }
+
+        .btn-submit {
+            background-color: transparent;
+            color: #ffffff;
+            border: 2px solid #ffffff;
+            padding: 12px 30px;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            background-color: #ffffff;
+            color: #007bb6;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Botões para alternar o idioma -->
+    <div class="language-switcher">
+        <button class="lang-btn active" onclick="switchLanguage('pt')">PT</button>
+        <button class="lang-btn" onclick="switchLanguage('en')">EN</button>
+    </div>
+
+    <div class="form-container">
+        <!-- Textos controlados pelo ID para tradução dinâmica -->
+        <h2 id="form-title">Formulário de contato</h2>
+        <p id="form-desc">Por favor, preencha suas informações e enviaremos seu pedido em breve.</p>
+
+        <form action="#" method="POST">
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="first-name" id="lbl-first-name">Seu Nome *</label>
+                    <input type="text" id="first-name" placeholder="Nome" required>
+                </div>
+                <div class="form-group">
+                    <label for="last-name" style="visibility: hidden;">Sobrenome</label>
+                    <input type="text" id="last-name" placeholder="Sobrenome">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email" id="lbl-email">Seu E-mail *</label>
+                <input type="email" id="email" placeholder="ex. ola@dominio.com" required>
+            </div>
+
+            <div class="form-group">
+                <label id="lbl-phone">Telefone *</label>
+                <div class="phone-inputs">
+                    <input type="text" id="phone-ddd" style="width: 20%;" placeholder="DDD" required>
+                    <input type="text" id="phone-part1" style="width: 30%;" placeholder="000" required>
+                    <input type="text" id="phone-part2" style="width: 50%;" placeholder="00000" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="subject" id="lbl-subject">Assunto da Mensagem *</label>
+                <select id="subject" required>
+                    <option value="other" id="opt-other">Outro</option>
+                    <option value="support" id="opt-support">Suporte</option>
+                    <option value="sales" id="opt-sales">Vendas</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="message" id="lbl-message">Mensagem *</label>
+                <textarea id="message" required></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit" id="btn-submit">Enviar Formulário</button>
+
+        </form>
+    </div>
+
+    <script>
+        // Objeto contendo os textos nos dois idiomas
+        const translations = {
+            pt: {
+                title: "Formulário de contato",
+                desc: "Por favor, preencha suas informações e enviaremos seu pedido em breve.",
+                firstName: "Seu Nome *",
+                firstNamePlh: "Nome",
+                lastNamePlh: "Sobrenome",
+                email: "Seu E-mail *",
+                emailPlh: "ex. ola@dominio.com",
+                phone: "Telefone *",
+                phoneDddPlh: "DDD",
+                subject: "Assunto da Mensagem *",
+                optOther: "Outro",
+                optSupport: "Suporte",
+                optSales: "Vendas",
+                message: "Mensagem *",
+                btnSubmit: "Enviar Formulário"
+            },
+            en: {
+                title: "Contact form",
+                desc: "Please fill in your information and we'll be sending your order in no time.",
+                firstName: "Your Name *",
+                firstNamePlh: "First Name",
+                lastNamePlh: "Last Name",
+                email: "Your Email *",
+                emailPlh: "e.g. hello@domain.net",
+                phone: "Phone *",
+                phoneDddPlh: "area",
+                subject: "Message Subject *",
+                optOther: "Other",
+                optSupport: "Support",
+                optSales: "Sales",
+                message: "Message *",
+                btnSubmit: "Submit Form"
+            }
+        };
+
+        function switchLanguage(lang) {
+            // Atualiza os textos da interface
+            document.getElementById('form-title').innerText = translations[lang].title;
+            document.getElementById('form-desc').innerText = translations[lang].desc;
+            document.getElementById('lbl-first-name').innerText = translations[lang].firstName;
+            document.getElementById('lbl-email').innerText = translations[lang].email;
+            document.getElementById('lbl-phone').innerText = translations[lang].phone;
+            document.getElementById('lbl-subject').innerText = translations[lang].subject;
+            document.getElementById('lbl-message').innerText = translations[lang].message;
+            document.getElementById('btn-submit').innerText = translations[lang].btnSubmit;
+            
+            // Alterna opções do Select
+            document.getElementById('opt-other').innerText = translations[lang].optOther;
+            document.getElementById('opt-support').innerText = translations[lang].optSupport;
+            document.getElementById('opt-sales').innerText = translations[lang].optSales;
+
+            // Atualiza os Placeholders dos inputs
+            document.getElementById('first-name').placeholder = translations[lang].firstNamePlh;
+            document.getElementById('last-name').placeholder = translations[lang].lastNamePlh;
+            document.getElementById('email').placeholder = translations[lang].emailPlh;
+            document.getElementById('phone-ddd').placeholder = translations[lang].phoneDddPlh;
+
+            // Gerencia o visual ativo dos botões seletores
+            const buttons = document.querySelectorAll('.lang-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
